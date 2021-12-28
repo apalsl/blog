@@ -1,16 +1,24 @@
 package study.blog;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import study.blog.Order.Order;
+import study.blog.Order.QOrder;
 import study.blog.hello.Hello;
 import study.blog.hello.QHello;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
 
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +36,30 @@ class BlogApplicationTests {
 
 	@Test
 	void contextLoads() {
+
+		Instant instant = LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.MAX).toInstant(ZoneOffset.UTC);
+		Instant instant2 = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).toInstant(ZoneOffset.UTC);
+
+		Instant now =Instant.now();
+
+
 		Hello hello = new Hello();
+		hello.setRequestDate(Instant.now());
+
 		em.persist(hello);
 
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		QHello $hello = QHello.hello;
 
+
+		BooleanBuilder builder = new BooleanBuilder();
+
+
+		builder.and($hello.requestDate.loe(instant2));
+
 		Hello result = query
 				.selectFrom($hello)
+				.where(builder)
 				.fetchOne();
 
 		assertThat(result).isEqualTo(hello);
@@ -68,7 +92,10 @@ class BlogApplicationTests {
 				.reduce("hoone", (name1, name2) ->
 						name1.length() >= name2.length() ? name1 : name2);
 		System.out.println("java 8 "+LongerEliment2);
+	}
 
+	@Test
+	void DateFormat_Test() {
 
 	}
 

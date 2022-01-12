@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.*;
 
 @SpringBootTest
-public class algorithm {
+public class Greedy {
 
     @Test
     void 그리디_거스름톤() {
@@ -99,7 +99,7 @@ public class algorithm {
     }
 
     @Test
-    void 결과가_1이_될_때까지() {
+    void 그리디_결과가_1이_될_때까지() {
         // N을 K로 나누거나 -1을 해서 N을 1로 만든다. 다만 N을 K로 나눌때 꼭 맞아떨어져야 한다.
         int n = 25;
         int k = 5;

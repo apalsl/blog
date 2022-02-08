@@ -116,4 +116,30 @@ public class Greedy {
 
         System.out.println(count);
     }
+
+    @Test
+    void 백준_2292() {
+        int n = 13;
+        int min = 2;
+        int max = 7;
+        int count = 2;
+
+        if (n == 1) {
+            System.out.println(1);
+            return;
+        }
+
+        while (min > n || n > max) {
+            count++;
+            min = max + 1;
+            max = max + (count-1) * 6;
+            System.out.println("min : " + min +  " max : " + max);
+        }
+
+        System.out.println(count);
+
+
+
+
+    }
 }
